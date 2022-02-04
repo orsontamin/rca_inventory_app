@@ -1,0 +1,4 @@
+development:
+  adapter: postgresql
+  database: rca_inventory_app_development
+  host: localhost
