@@ -1,6 +1,8 @@
 require 'bcrypt'
 
 class User < ActiveRecord::Base
+  has_many :bookings
+  has_one_attached :avatar
   attr_accessor :password, :password_confirmation
 
   # validations provided in ActiveRecord
