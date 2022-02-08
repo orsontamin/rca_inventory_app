@@ -1,0 +1,17 @@
+<a href='/admin-dashboard'> Go back to admin dashboard</a>
+
+<% if @products.empty? %>
+  <p> No products yet. </p>
+<% else %>
+  <% @products.each do |product| %>
+    <p>Title: <%= product.title %> </p>
+    <p>Description: <%= product.description %></p>
+    <p>Available: <%= product.available %> </p>
+    <p>Quantity Left: <%= product.quantity %> </p>
+
+    <a href='/admin-dashboard/edit-product/<%= product.id %>'>Edit Product</a>
+    <form action='/admin-dashboard/delete-product/<%= product.id %>' method='post'>
+      <input type='submit' value='Delete Product' />
+    </form>
+  <% end %>
+<% end %>
