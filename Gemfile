@@ -9,4 +9,5 @@ gem 'sinatra-activerecord'
 gem 'pg' # Database adapter for PostgreSQL
 gem 'rake'
 gem 'bcrypt' # Gem to encrypt password
-gem 'shotgun' # Auto-reload when making any changes
+gem 'dotenv'
+gem 'sinatra-flash'
