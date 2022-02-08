@@ -3,6 +3,7 @@ require 'sinatra/reloader' if development?
 require "sinatra/activerecord"
 require './models/user'
 require './models/admin'
+require './models/product'
 
 enable :sessions
 
@@ -87,9 +88,11 @@ post '/sign-up' do
   end
 end
 
+
 ####### ######## ########
 ####### ADMIN ##########
 ####### ######## ########
+
 get '/admin-sign-in' do
   if admin_signed_in?
     redirect '/admin-dashboard'
@@ -123,5 +126,67 @@ get '/sign-up' do
   else
     @user = User.new
     erb :sign_up
+  end
+end
+
+get '/admin-dashboard/new-product' do
+  @product = Product.new
+  erb :new_product
+end
+
+post '/admin-dashboard/new-product' do
+  @product = Product.new
+  @product.title = params[:title]
+  @product.description = params[:description]
+  @product.available = params[:available]
+  @product.quantity = params[:quantity]
+
+  if @product.save
+    redirect '/admin-dashboard'
+  else
+    erb :new_product
+  end
+end
+
+get '/admin-dashboard/products' do
+  if admin_signed_in?
+    @products = Product.all
+    erb :products_index
+  else
+    redirect '/admin_sign_in'
+  end
+end
+
+get '/admin-dashboard/edit-product/:id' do
+  @product = Product.find(params[:id])
+  if admin_signed_in?
+    erb :edit_product
+  else
+    redirect '/'
+  end
+end
+
+post '/admin-dashboard/edit-product/:id' do
+  @product = Product.find(params[:id])
+  if @product
+    update_success = @product.update(title: params[:title],
+                                     description: params[:description],
+                                     available: params[:available],
+                                     quantity: params[:quantity])
+      if update_success
+        redirect '/admin-dashboard'
+      else
+        redirect '/admin-dashboard/edit-product/:id'
+      end
+    end
+end
+
+post '/admin-dashboard/delete-product/:id' do
+  @product = Product.find(params[:id])
+  if @product.destroy
+    redirect '/admin-dashboard'
+  else
+    'Product cannot be deleted'
+    redirect '/admin-dashboard'
   end
 end
