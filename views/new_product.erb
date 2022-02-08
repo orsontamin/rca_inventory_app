@@ -1,0 +1,31 @@
+<h1> Add a new Product to the Inventory </h1>
+
+<% if @product.errors.any? %>
+<div>
+  <ul>
+    <% @product.errors.each do |error| %>
+    <li> <%= error.full_message %> </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<form action='/admin-dashboard/new-product' method='post'>
+  <label for='title'>Product name: </label>
+  <input type='text' name='title' />
+  <br /><br />
+
+  <label for='description'>Product Description: </label>
+  <input type='textarea' name='description' />
+  <br /><br />
+
+  <label for='available'>Status: </label>
+  <input type='checkbox' checked='true' name='available' />
+  <br /><br />
+
+  <label for='quantity'>Quantity: </label>
+  <input type='number' name='quantity'>
+  <br /><br />
+
+  <input type="submit" value="Add Product" />
+</form>
