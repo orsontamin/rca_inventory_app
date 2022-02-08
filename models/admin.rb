@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class Admin < ActiveRecord::Base
 
   attr_accessor :password, :password_confirmation
@@ -8,9 +10,9 @@ class Admin < ActiveRecord::Base
   validates :password_confirmation, presence: true
 
 
-  def admin?
-    true
-  end
+  # def admin?
+  #   true
+  # end
 
 
   before_save :hash_password
