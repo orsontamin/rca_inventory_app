@@ -1,6 +1,8 @@
-<h1>Sign-Up to Inventory app</h1>
+<h1>Sign-Up to Inventory App</h1>
 <br />
 <a href="/">Homepage</a>
+<br />
+<br />
 
 <% if @user.errors.any? %>
   <div>
@@ -12,32 +14,28 @@
   </div>
   <% end %>
 
-<form action="/sign-up" method="POST">
+<form action="/sign-up" method="post">
   <p>
     <label for="full_name">Name: </label>
-      <input type="text" name="full_name" placeholder="Name "
+      <input type="text" name="full_name" />
   </p>
-
-  <br />
 
     <p>
       <label for="email">Email: </label>
-        <input type="text" name="email" placeholder="Email ">
+        <input type="text" name="email" />
     </p>
-
-    <br />
 
     <p>
       <label for="password">Password: </label>
-        <input type="password" name="password" placeholder="Password">
+        <input type="password" name="password"/>
     </p>
 
     <p>
     <label for="password">Password Confirmation: </label>
-      <input type="password" name="password_confirmation" placeholder="Password Confirmation">
+      <input type="password" name="password_confirmation" />
     </p>
 
-    <br />
 
-  <input type="submit" value="Sign-Up">
+  <input type="submit" value="Sign-Up" />
+  <a href="/sign-in">Sign In</a>
 </form>
