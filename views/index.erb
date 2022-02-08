@@ -1,1 +1,12 @@
-<h1>Hello World</h1>
+<h1>Rambutan Inventory System</h1>
+
+<% if user_signed_in? %>
+  <p> Welcome <%= current_user.full_name %>! </p>
+  <form action='/sign-out' method='post'>
+    <input type='submit' value='Sign Out' />
+  </form>
+
+  <% else %>
+  <a href='/sign-in'>Sign In</a>
+  <a href='/sign-up'>Sign Up</a>
+  <% end %>
