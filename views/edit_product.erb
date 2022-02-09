@@ -1,3 +1,4 @@
+<p> Go back to <a href='/admin-dashboard'> Admin Dashboard </a>
 <h1> Edit Product: <%= @product.title %> </h1>
 
 <% if @product.errors.any? %>
@@ -20,6 +21,9 @@
 
     <label for='quantity'>Quantity: </label>
     <input type='number' name='quantity' value='<%= @product.quantity %>' />
+
+    <label for='available'>Status: </label>
+    <input type='checkbox' name='available' <%= "checked" if @product.available %> />
 
     <input type='submit' value='Update Product' />
   </form>
