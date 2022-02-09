@@ -1,7 +1,8 @@
-<h1>Rambutan Inventory System</h1>
+<h1 class="fs-1">Rambutan Inventory System</h1>
 
 <% if user_signed_in? %>
   <p> Welcome <%= current_user.full_name %>! </p>
+  <p> Go to <a href='/user-dashboard'>Dashboard </a> </p>
   <form action='/sign-out' method='post'>
     <input type='submit' value='Sign Out' />
   </form>
