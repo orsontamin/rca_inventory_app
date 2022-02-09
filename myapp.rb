@@ -4,6 +4,7 @@ require "sinatra/activerecord"
 require './models/user'
 require './models/admin'
 require './models/product'
+require './models/booking'
 
 enable :sessions
 
@@ -18,6 +19,10 @@ helpers do
 
   def current_user
     @current_user ||= User.find_by(id: session[:user_id])
+  end
+
+  def current_product
+    @current_product ||= Product.find_by(id: session[:product_id])
   end
 
   def admin
@@ -88,6 +93,14 @@ post '/sign-up' do
   end
 end
 
+get '/products' do
+  if user_signed_in?
+    @products = Product.all
+    erb :products_index
+  else
+    redirect '/sign-in'
+  end
+end
 
 ####### ######## ########
 ####### ADMIN ##########
@@ -151,7 +164,7 @@ end
 get '/admin-dashboard/products' do
   if admin_signed_in?
     @products = Product.all
-    erb :products_index
+    erb :admin_products_index
   else
     redirect '/admin_sign_in'
   end
@@ -188,5 +201,44 @@ post '/admin-dashboard/delete-product/:id' do
   else
     'Product cannot be deleted'
     redirect '/admin-dashboard'
+  end
+end
+
+####### ######## ########
+####### BOOKING ##########
+####### ######## ########
+
+get '/product/book/:id' do
+  @product = Product.find(params[:id])
+  if user_signed_in?
+    erb :book_product
+  else
+    redirect '/'
+  end
+end
+
+post '/product/book/:id' do
+  @product = Product.find(params[:id])
+  if user_signed_in?
+    erb :book_product
+  else
+    redirect '/'
+  end
+end
+
+post '/product/books/:id' do
+  @user = User.find(params[:id])
+  @product = Product.find(params[:id])
+  @booking = Booking.new
+  @booking.user_id = @user.id
+  @booking.product_id = @product.id
+  @booking.quantity = params[:quantity]
+  @booking.booking_date = params[:booking_date]
+  @booking.return_date = params[:return_date]
+
+  if @booking.save
+    redirect 'user-dashboard'
+  else
+    erb :book_product
   end
 end
