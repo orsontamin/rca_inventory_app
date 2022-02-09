@@ -9,9 +9,11 @@
     <p>Available: <%= product.available %> </p>
     <p>Quantity Left: <%= product.quantity %> </p>
 
-    <a href='/admin-dashboard/edit-product/<%= product.id %>'>Edit Product</a>
+
+    <a href='/admin-dashboard/edit-product/<%= product.id %>'> <button>Edit Product</button> </a>
     <form action='/admin-dashboard/delete-product/<%= product.id %>' method='post'>
       <input type='submit' value='Delete Product' />
     </form>
+    <hr />
   <% end %>
 <% end %>
