@@ -1,4 +1,4 @@
-<a href='/admin-dashboard'> Go back to admin dashboard</a>
+<a href='/user-dashboard'>Go back to dashboard</a>
 
 <% if @products.empty? %>
   <p> No products yet. </p>
@@ -9,9 +9,9 @@
     <p>Available: <%= product.available %> </p>
     <p>Quantity Left: <%= product.quantity %> </p>
 
-    <a href='/admin-dashboard/edit-product/<%= product.id %>'>Edit Product</a>
-    <form action='/admin-dashboard/delete-product/<%= product.id %>' method='post'>
-      <input type='submit' value='Delete Product' />
+    <form action='/product/book/<%= product.id %>' method='post'>
+      <input type='submit' value='Book this Product' />
+      <br /> <br />
     </form>
   <% end %>
 <% end %>
