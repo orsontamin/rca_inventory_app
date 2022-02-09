@@ -1,3 +1,4 @@
+<p> Go back to <a href='/admin-dashboard'> Admin Dashboard </a>
 <h1> Add a new Product to the Inventory </h1>
 
 <% if @product.errors.any? %>
@@ -20,7 +21,8 @@
   <br /><br />
 
   <label for='available'>Status: </label>
-  <input type='checkbox' checked='true' name='available' />
+  <input type='hidden' name='available' value='0' />
+  <input type='checkbox' value='1' name='available' />
   <br /><br />
 
   <label for='quantity'>Quantity: </label>
