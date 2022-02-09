@@ -184,7 +184,7 @@ post '/admin-dashboard/edit-product/:id' do
   if @product
     update_success = @product.update(title: params[:title],
                                      description: params[:description],
-                                     available: params[:available],
+                                     available: params[:available] ? 1 : 0,
                                      quantity: params[:quantity])
       if update_success
         redirect '/admin-dashboard'
