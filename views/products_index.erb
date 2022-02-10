@@ -11,7 +11,7 @@
     <p>Quantity Left: <%= product.quantity %> </p>
 
     <form action='/product/book/<%= product.id %>' method='post'>
-      <input type='submit' value='Book this Product' />
+      <input type='submit' <%= "disabled title='No product available'" if product.quantity == 0 %> value='Book this Product' />
       <br /> <br />
     </form>
     <% end %>
