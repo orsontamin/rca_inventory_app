@@ -11,3 +11,4 @@ gem 'rake'
 gem 'bcrypt' # Gem to encrypt password
 gem 'dotenv'
 gem 'sinatra-flash'
+gem 'sinatra-js'
