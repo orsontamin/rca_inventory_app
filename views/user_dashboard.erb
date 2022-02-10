@@ -3,6 +3,30 @@
 </p> Go back to <a href='/'> Home </a> </p>
 <a href='/products'>Book a product from the inventory</a>
 
+<br />
+Booked items
+<% if @bookings.empty? %>
+  <p> No products booked. </p>
+  <% else %>
+  <table>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Booked on</th>
+      <th>Return by</th>
+    </tr>
+    <tr>
+  <% @bookings.each do |booking| %>
+    <td><%= booking.product.title %></td>
+    <td><%= booking.quantity %></td>
+    <td><%= booking.created_at.strftime('%d-%m-%Y at %H:%m %P') %></td>
+    <td><%= booking.return_date.strftime('%d-%m-%Y at %H:%m %P')%></td>
+  </tr>
+    <% end %>
+</table>
+<% end %>
+
+
 <form action='/sign-out' method='post'>
   <input type='submit' value='Sign Out' />
   </form>
