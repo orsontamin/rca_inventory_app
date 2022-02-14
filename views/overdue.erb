@@ -1,0 +1,6 @@
+<a href='/user-dashboard'>Go back to dashboard</a>
+
+<p> Please return your overdue booked items and pay the late fee before proceeding:</p>
+<% @overdue_bookings.each do |booking|%>
+<p> <%= booking.product.title %> </p>
+<% end %>
