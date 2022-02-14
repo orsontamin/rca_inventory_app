@@ -7,11 +7,12 @@ require './models/product'
 require './models/booking'
 
 enable :sessions
+set :method_override, true
 
 helpers do
   def log_in(user)
-     session[:user_id] = user.id
-   end
+    session[:user_id] = user.id
+  end
 
   def admin_log_in(user)
     session[:admin_id] = user.id
@@ -49,8 +50,9 @@ end
 get '/sign-in' do
   if user_signed_in?
     redirect '/'
+  else
+    erb :sign_in
   end
-  erb :sign_in
 end
 
 post '/sign-out' do
@@ -71,6 +73,7 @@ end
 
 get '/user-dashboard' do
   if user_signed_in?
+    @bookings = Booking.where(user_id: current_user.id)
     erb :user_dashboard
   else
     redirect '/sign-in'
@@ -78,11 +81,10 @@ get '/user-dashboard' do
 end
 
 post '/sign-up' do
-  @user = User.new
-  @user.full_name = params[:full_name]
-  @user.email = params[:email]
-  @user.password = params[:password]
-  @user.password_confirmation = params[:password_confirmation]
+  @user = User.new(full_name: params[:full_name],
+                   email: params[:email],
+                   password: params[:password],
+                   password_confirmation: params[:password_confirmation])
 
   if @user.save
     log_in(@user)
@@ -96,7 +98,15 @@ end
 get '/products' do
   if user_signed_in?
     @products = Product.all
-    erb :products_index
+    @bookings = Booking.where(user_id: current_user.id)
+    @overdue_bookings = @bookings.is_overdue
+
+    if @overdue_bookings
+      erb :overdue
+    else
+      erb :products_index
+    end
+
   else
     redirect '/sign-in'
   end
@@ -124,15 +134,6 @@ post '/admin-sign-in' do
   end
 end
 
-
-get '/admin-dashboard' do
-  if admin_signed_in?
-    erb :admin_dashboard
-  else
-    redirect '/admin-sign-in'
-  end
-end
-
 get '/sign-up' do
   if user_signed_in?
     redirect '/'
@@ -142,17 +143,25 @@ get '/sign-up' do
   end
 end
 
+get '/admin-dashboard' do
+  if admin_signed_in?
+    @bookings = Booking.all
+    erb :admin_dashboard
+  else
+    redirect '/admin-sign-in'
+  end
+end
+
 get '/admin-dashboard/new-product' do
   @product = Product.new
   erb :new_product
 end
 
 post '/admin-dashboard/new-product' do
-  @product = Product.new
-  @product.title = params[:title]
-  @product.description = params[:description]
-  @product.available = params[:available]
-  @product.quantity = params[:quantity]
+  @product = Product.new(title: params[:title],
+                         description: params[:description],
+                         available: params[:available],
+                         quantity: params[:quantity])
 
   if @product.save
     redirect '/admin-dashboard'
@@ -179,28 +188,45 @@ get '/admin-dashboard/edit-product/:id' do
   end
 end
 
-post '/admin-dashboard/edit-product/:id' do
+patch '/admin-dashboard/update-booking-status/:id' do
+  @booking = Booking.all.find(params[:id])
+  if @booking
+    update_success = @booking.update(booking_status: params[:booking_status])
+    redirect '/admin-dashboard/users'
+  end
+end
+
+patch '/admin-dashboard/edit-product/:id' do
   @product = Product.find(params[:id])
   if @product
     update_success = @product.update(title: params[:title],
                                      description: params[:description],
                                      available: params[:available] ? 1 : 0,
                                      quantity: params[:quantity])
-      if update_success
-        redirect '/admin-dashboard'
-      else
-        redirect '/admin-dashboard/edit-product/:id'
-      end
+    if update_success
+      redirect '/admin-dashboard'
+    else
+      redirect '/admin-dashboard/edit-product/:id'
     end
+  end
 end
 
-post '/admin-dashboard/delete-product/:id' do
+delete '/admin-dashboard/delete-product/:id' do
   @product = Product.find(params[:id])
   if @product.destroy
     redirect '/admin-dashboard'
   else
     'Product cannot be deleted'
     redirect '/admin-dashboard'
+  end
+end
+
+get '/admin-dashboard/users' do
+  if admin_signed_in?
+    @bookings = Booking.all
+    erb :admin_bookings_index
+  else
+    redirect '/'
   end
 end
 
@@ -227,14 +253,13 @@ post '/product/book/:id' do
 end
 
 post '/product/books/:id' do
-  @user = User.find(params[:id])
+  @user = User.find(current_user.id)
   @product = Product.find(params[:id])
-  @booking = Booking.new
-  @booking.user_id = @user.id
-  @booking.product_id = @product.id
-  @booking.quantity = params[:quantity]
-  @booking.booking_date = params[:booking_date]
-  @booking.return_date = params[:return_date]
+  @booking = Booking.new(user_id: current_user.id,
+                         product_id: @product.id,
+                         quantity: params[:quantity],
+                         booking_date: params[:booking_date],
+                         return_date: params[:return_date])
 
   if @booking.save
     redirect 'user-dashboard'
