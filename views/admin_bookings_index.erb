@@ -1,0 +1,44 @@
+<a href='/admin-dashboard' class='bi bi-arrow-left-circle-fill' style='font-size: 2rem;'> Admin Dashboard</a>
+<br><br>
+
+<% if @bookings.empty? %>
+  <p> No bookings made yet. </p>
+<% else %>
+  <table class='table table-striped'>
+    <thead class='thead-dark'>
+    <tr>
+      <th scope='col'>Name</th>
+      <th scope='col'>Product</th>
+      <th scope='col'>Quantity</th>
+      <th scope='col'>Booked on</th>
+      <th scope='col'>Return by</th>
+      <th scope='col'>Status</th>
+      <th scope='col'></th>
+    </tr>
+    </thead>
+
+    <tr>
+      <% @bookings.each do |booking| %>
+        <td><%= booking.user.full_name %></td>
+        <td><%= booking.product.title%></td>
+        <td><%= booking.quantity%></td>
+        <td> <%= booking.booking_date %></td>
+        <td> <%= booking.return_date%></td>
+        <td> <%= booking.booking_status%> </td>
+        <td>
+          <form action='/admin-dashboard/update-booking-status/<%= booking.id %>' method='post'>
+            <input type='hidden' name='_method' value='patch' />
+            <select name='booking_status' onchange='this.form.submit()' id='booking_status'>
+              <option value=''>Select Status</option>
+              <option value='Pending'>Pending</option>
+              <option value='Booked'>Booked</option>
+              <option value='Cancelled'>Cancelled</option>
+              <option value='Returned'>Returned</option>
+              <option value='Overdue'>Overdue</option>
+            </select>
+          </form>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+<% end %>
