@@ -9,21 +9,22 @@
       <% end %>
     </ul>
   </div>
-  <% end %>
+<% end %>
 
-  <form action='/admin-dashboard/edit-product/<%= @product.id %>' method='post'>
-    <label for='title'>Product name: </label>
-    <input type='text' name='title' value='<%= @product.title %>' />
-    <br /> <br />
+<form action='/admin-dashboard/edit-product/<%= @product.id %>' method='post'>
+  <input type='hidden' name='_method' value='patch' />
+  <label for='title'>Product name: </label>
+    <input type='text' name='title' value='<%= @product.title %>'/>
+    <br><br>
 
-    <label for='description'>Product Description: </label>
+  <label for='description'>Product Description: </label>
     <input type='textarea' name='description' value='<%= @product.description%>' />
-
-    <label for='quantity'>Quantity: </label>
-    <input type='number' name='quantity' value='<%= @product.quantity %>' />
-
-    <label for='available'>Status: </label>
+    <br><br>
+  <label for='quantity'>Quantity: </label>
+    <input type='number' min='0' name='quantity' value='<%= @product.quantity || 0 %>' required />
+    <br><br>
+  <label for='available'>Status: </label>
     <input type='checkbox' name='available' <%= "checked" if @product.available %> />
-
-    <input type='submit' value='Update Product' />
+    <br><br>
+    <input type='submit' class='btn btn-dark' value='Update Product' />
   </form>

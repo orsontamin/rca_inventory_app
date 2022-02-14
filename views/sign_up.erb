@@ -12,7 +12,7 @@
       <% end %>
     </ul>
   </div>
-  <% end %>
+<% end %>
 
 <form action="/sign-up" method="post">
   <p>
@@ -20,21 +20,20 @@
       <input type="text" name="full_name" />
   </p>
 
-    <p>
-      <label for="email">Email: </label>
-        <input type="text" name="email" />
-    </p>
+  <p>
+    <label for="email">Email: </label>
+      <input type="text" name="email" />
+  </p>
 
-    <p>
-      <label for="password">Password: </label>
-        <input type="password" name="password"/>
-    </p>
+  <p>
+    <label for="password">Password: </label>
+      <input type="password" name="password"/>
+  </p>
 
-    <p>
+  <p>
     <label for="password">Password Confirmation: </label>
       <input type="password" name="password_confirmation" />
-    </p>
-
+  </p>
 
   <input type="submit" value="Sign-Up" />
   <a href="/sign-in">Sign In</a>

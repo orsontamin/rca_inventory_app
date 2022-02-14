@@ -1,19 +1,28 @@
-<a href='/admin-dashboard'> Go back to admin dashboard</a>
+<a href='/admin-dashboard' class='bi bi-arrow-left-circle-fill' style='font-size: 2rem;'> Admin Dashboard</a>
 
 <% if @products.empty? %>
   <p> No products yet. </p>
 <% else %>
+
   <% @products.each do |product| %>
-    <p>Title: <%= product.title %> </p>
-    <p>Description: <%= product.description %></p>
-    <p>Available: <%= product.available %> </p>
-    <p>Quantity Left: <%= product.quantity %> </p>
+  <div class='card-deck'>
+    <div class='row justify-content-center p-5'>
+      <div class='card col-sm-4'>
+        <div class='card-body'>
+          <h5 class='card-title'>Title: <%= product.title %> </h5>
+          <p class='card-text'>Description: <%= product.description %></p>
+          <p class='card-text'>Available: <%= product.available != (product.quantity == 0) ? 'Yes' : 'No' %> </p>
+          <p class='card-text'>Quantity Left: <%= product.quantity %> </p>
 
-
-    <a href='/admin-dashboard/edit-product/<%= product.id %>'> <button>Edit Product</button> </a>
-    <form action='/admin-dashboard/delete-product/<%= product.id %>' method='post'>
-      <input type='submit' value='Delete Product' />
-    </form>
-    <hr />
+          <a href='/admin-dashboard/edit-product/<%= product.id %>'> <button class="btn btn-dark btn-sm">Edit Product</button> </a> <br><br>
+          <form action='/admin-dashboard/delete-product/<%= product.id %>' method='post'>
+            <input type='hidden' name='_method' value='delete' />
+            <input type='submit' class='btn btn-danger btn-sm' value='Delete Product' />
+            <br> <br>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <% end %>
 <% end %>

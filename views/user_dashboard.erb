@@ -8,25 +8,28 @@ Booked items
 <% if @bookings.empty? %>
   <p> No products booked. </p>
   <% else %>
-  <table>
-    <tr>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Booked on</th>
-      <th>Return by</th>
-    </tr>
-    <tr>
-  <% @bookings.each do |booking| %>
-    <td><%= booking.product.title %></td>
-    <td><%= booking.quantity %></td>
-    <td><%= booking.created_at.strftime('%d-%m-%Y at %H:%m %P') %></td>
-    <td><%= booking.return_date.strftime('%d-%m-%Y at %H:%m %P')%></td>
-  </tr>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Booked on</th>
+        <th>Return by</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+      <tr>
+        <% @bookings.each do |booking| %>
+          <td><%= booking.product.title %></td>
+          <td><%= booking.quantity %></td>
+          <td><%= booking.booking_date.strftime('%d-%m-%Y at %H:%m %P') %></td>
+          <td><%= booking.return_date.strftime('%d-%m-%Y at %H:%m %P')%></td>
+          <td><%= booking.booking_status %></td>
+      </tr>
     <% end %>
-</table>
+  </table>
 <% end %>
-
 
 <form action='/sign-out' method='post'>
   <input type='submit' value='Sign Out' />
-  </form>
+</form>

@@ -1,4 +1,4 @@
-<p> Go back to <a href='/admin-dashboard'> Admin Dashboard </a>
+<a href='/admin-dashboard' class='bi bi-arrow-left-circle-fill' style='font-size: 2rem;'> Admin Dashboard</a>
 <h1> Add a new Product to the Inventory </h1>
 
 <% if @product.errors.any? %>
@@ -10,6 +10,7 @@
   </ul>
 </div>
 <% end %>
+
 
 <form action='/admin-dashboard/new-product' method='post'>
   <label for='title'>Product name: </label>
@@ -26,7 +27,7 @@
   <br /><br />
 
   <label for='quantity'>Quantity: </label>
-  <input type='number' name='quantity'>
+  <input type='number' value="0" name='quantity'>
   <br /><br />
 
   <input type="submit" value="Add Product" />

@@ -1,19 +1,20 @@
 <a href='/user-dashboard'>Go back to dashboard</a>
 
-<% if @products.empty? %>
-  <p> No products yet. </p>
-<% else %>
-  <% @products.each do |product| %>
-    <% if product.available == true %>
-    <p>Title: <%= product.title %> </p>
-    <p>Description: <%= product.description %></p>
-    <p>Available: <%= product.available %> </p>
-    <p>Quantity Left: <%= product.quantity %> </p>
+  <% if @products.empty? %>
+    <p> No products yet. </p>
 
-    <form action='/product/book/<%= product.id %>' method='post'>
-      <input type='submit' <%= "disabled title='No product available'" if product.quantity == 0 %> value='Book this Product' />
-      <br /> <br />
-    </form>
+  <% else %>
+    <% @products.each do |product| %>
+      <% if product.available == true %>
+      <p>Title: <%= product.title %> </p>
+      <p>Description: <%= product.description %></p>
+      <p>Available: <%= product.available != (product.quantity == 0) ? 'Yes' : 'No' %> </p>
+      <p>Quantity Left: <%= product.quantity %> </p>
+
+      <form action='/product/book/<%= product.id %>' method='post'>
+        <input type='submit' <%= "disabled title='No product available'" if product.quantity == 0 %> value='Book this Product' />
+        <br /> <br />
+      </form>
     <% end %>
   <% end %>
 <% end %>
