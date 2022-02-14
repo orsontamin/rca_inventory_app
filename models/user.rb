@@ -9,8 +9,8 @@ class User < ActiveRecord::Base
   validates :email, presence: true
   validates :password, presence: true
   validates :password_confirmation, presence: true
-  has_many :products
-  has_many :bookings
+  has_many :products, dependent: :destroy
+  has_many :bookings, dependent: :destroy
   # custom validation
   validate :password_and_confirmation_must_be_identical
 
