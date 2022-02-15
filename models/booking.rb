@@ -1,35 +1,37 @@
 class Booking < ActiveRecord::Base
   belongs_to :user
   belongs_to :product
+  # attr_accessor :quantity
 
-  #
-  scope :is_overdue, -> { where("booking_status = 'Overdue'") }
+  scope :is_overdue, -> { where(booking_status: 'Overdue') }
 
   before_save :default_values
-  # after_create :overdue?
-  #after_create :quantity_remaining
+#  after_create :decrement_quantity
 
-  # def overdue?
-  #   if due_date_absolute < Time.now.strftime('%d %B %Y')
-  #     self.booking_status = 'Overdue'
-  #     self.save
-  #   end
-  # end
-  #
-  # def due_date_absolute
-  #   self.return_date.strftime('%d %B %Y')
-  # end
-  #
-  # def overdue_rate
-  #   1.00
-  # end
-  #
-  # def overdue_fees
-  #   overdue_rate * ((Time.now - self.booking_end) / 1.days)
-  # end
+  # The overdue rate per day
+   def overdue_rate
+     1.00
+   end
 
-  # Set the booking status to 'Pending' after booking items.
+   # Return the days that has passed after deadline
+   def due_days
+     (DateTime.now - self.return_date).to_i
+   end
+
+   # Calculate the overdue fees.
+   def overdue_fees
+     overdue_rate * due_days
+   end
+
+  # Set the booking status to 'Pending' after user book a product.
   def default_values
     self.booking_status ||= 'Pending' if self.booking_status.nil?
   end
+
+  # private
+  # def decrement_quantity
+  #   product = Product.find(params[:id])
+  #   # product = product.quantity - self.booking.quantity
+  #   Product.decrement!(:quantity, params[:quantity])
+  # end
 end
