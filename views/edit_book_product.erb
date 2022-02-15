@@ -1,0 +1,29 @@
+<a href='/user-dashboard' class='bi bi-arrow-left-circle-fill' style='font-size: 1.5rem;'>Go back to dashboard</a>
+<h1> Edit Booking: <%= @booking.product.title %> </h1>
+
+<% if @booking.errors.any? %>
+  <div>
+    <ul>
+      <% @booking.errors.each do |error| %>
+      <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<form action='/edit/book-product/<%= @booking.id %>' method='post'>
+  <input type='hidden' name='_method' value='patch' />
+  <label for='quantity'>Quantity to book: </label>
+  <input type='number' name='quantity' min=1 max='<%= @booking.product.quantity %>' value=0  required/>
+  <br /><br />
+
+  <label for='booking_date'>Start book product on: </label>
+  <input type='date' name='booking_date' value='<%= Date.today.strftime("%A %-d %B")%>' required/>
+
+  <br /><br />
+  <label for='return_date'>Return product on: </label>
+  <input type='date' name='return_date' value='<%= Date.today.strftime("%A %-d %B") %>' required />
+
+  <br /><br />
+  <input type='submit' value='Edit Product' />
+  </form>
