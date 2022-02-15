@@ -1,20 +1,28 @@
-<a href='/user-dashboard'>Go back to dashboard</a>
+<a href='/user-dashboard' class='bi bi-arrow-left-circle-fill' style='font-size: 1.5rem;'>Go back to dashboard</a>
 
-  <% if @products.empty? %>
-    <p> No products yet. </p>
+<% if @products.empty? %>
+  <p> No products yet. </p>
 
-  <% else %>
-    <% @products.each do |product| %>
-      <% if product.available == true %>
-      <p>Title: <%= product.title %> </p>
-      <p>Description: <%= product.description %></p>
-      <p>Available: <%= product.available != (product.quantity == 0) ? 'Yes' : 'No' %> </p>
-      <p>Quantity Left: <%= product.quantity %> </p>
+<% else %>
+  <% @products.each do |product| %>
+    <div class='card-deck'>
+      <div class='row justify-content-center p-5'>
+        <div class='card col-sm-4'>
+          <div class='card-body'>
+            <% if product.available == true %>
+              <p>Title: <%= product.title %> </p>
+              <p>Description: <%= product.description %></p>
+              <p>Available: <%= product.available != (product.quantity == 0) ? 'Yes' : 'No' %> </p>
+              <p>Quantity Left: <%= product.quantity %> </p>
 
-      <form action='/product/book/<%= product.id %>' method='post'>
-        <input type='submit' <%= "disabled title='No product available'" if product.quantity == 0 %> value='Book this Product' />
-        <br /> <br />
-      </form>
+              <form action='/product/book/<%= product.id %>' method='post'>
+                <input type='submit' <%= "disabled title='No product available'" if product.quantity == 0 %> value='Book this Product' class='btn btn-dark' />
+                <br /> <br />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
   <% end %>
 <% end %>
