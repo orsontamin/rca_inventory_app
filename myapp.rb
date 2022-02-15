@@ -270,6 +270,28 @@ post '/product/books/:id' do
   end
 end
 
+get '/edit/book-product/:id' do
+  if user_signed_in?
+    @booking = Booking.find(params[:id])
+    erb :edit_book_product
+  else
+    redirect '/'
+  end
+end
+
+patch '/edit/book-product/:id' do
+  @booking = current_user.bookings
+  if @booking
+  update_success = @booking.update(quantity: params[:quantity],
+                                   booking_date: params[:booking_date],
+                                   return_date: params[:return_date])
+    if update_success
+      redirect '/user-dashboard'
+    else
+      redirect '/user-dashboard/edit-book-product/:id'
+    end
+  end
+end
 # def update
 #   @product = Product.find(params[:id])
 #   @booking = Booking.find(params[:id])
