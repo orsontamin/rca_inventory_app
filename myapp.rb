@@ -6,8 +6,10 @@ require './models/admin'
 require './models/product'
 require './models/booking'
 
-enable :sessions
-set :method_override, true
+configure do
+  enable :sessions
+  set :method_override, true
+end
 
 helpers do
   def log_in(user)
@@ -98,10 +100,10 @@ end
 get '/products' do
   if user_signed_in?
     @products = Product.all
-    @bookings = Booking.where(user_id: current_user.id)
+    @bookings = current_user.bookings
     @overdue_bookings = @bookings.is_overdue
 
-    if @overdue_bookings
+    if @overdue_bookings.any?
       erb :overdue
     else
       erb :products_index
@@ -267,3 +269,9 @@ post '/product/books/:id' do
     erb :book_product
   end
 end
+
+# def update
+#   @product = Product.find(params[:id])
+#   @booking = Booking.find(params[:id])
+#   @product.decrement_stock(@booking.quantity)
+# end
