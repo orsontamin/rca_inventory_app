@@ -1,6 +1,22 @@
-<a href='/user-dashboard'>Go back to dashboard</a>
+<a href='/user-dashboard' class='bi bi-arrow-left-circle-fill' style='font-size: 1.5rem;'>Go back to dashboard</a>
+<br><br>
+<h3> Please return your overdue booked items and pay the late fee before proceeding:</h3>
+<table class='table table-striped'>
+  <thead class='thead-dark'>
+  <tr>
+    <th scope='col'>Product</th>
+    <th scope='col'>Quantity</th>
+    <th scope='col'>Due since</th>
+    <th scope='col'>Overdue fee (RM)</th>
+  </tr>
+  </thead>
 
-<p> Please return your overdue booked items and pay the late fee before proceeding:</p>
-<% @overdue_bookings.each do |booking|%>
-<p> <%= booking.product.title %> </p>
-<% end %>
+  <tr>
+    <% @overdue_bookings.each do |booking|%>
+    <td><%=booking.product.title %> </td>
+    <td><%=booking.quantity %> </td>
+    <td><%=booking.due_days%> day(s) ago </td>
+    <td><%=booking.overdue_fees %> </td>
+  </tr>
+  <% end %>
+  </table>
