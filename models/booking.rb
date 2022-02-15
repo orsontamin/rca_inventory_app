@@ -4,9 +4,10 @@ class Booking < ActiveRecord::Base
   # attr_accessor :quantity
 
   scope :is_overdue, -> { where(booking_status: 'Overdue') }
+  scope :is_pending, -> { where(booking_status: 'Pending') }
 
   before_save :default_values
-#  after_create :decrement_quantity
+  before_save :decrement_quantity
 
   # The overdue rate per day
    def overdue_rate
@@ -28,10 +29,8 @@ class Booking < ActiveRecord::Base
     self.booking_status ||= 'Pending' if self.booking_status.nil?
   end
 
-  # private
-  # def decrement_quantity
-  #   product = Product.find(params[:id])
-  #   # product = product.quantity - self.booking.quantity
-  #   Product.decrement!(:quantity, params[:quantity])
-  # end
+  def decrement_quantity
+     product.update_attribute(:quantity, product.quantity-self.quantity)
+     product.save
+   end
 end
