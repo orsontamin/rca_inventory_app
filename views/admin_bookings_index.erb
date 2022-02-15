@@ -14,6 +14,7 @@
       <th scope='col'>Return by</th>
       <th scope='col'>Status</th>
       <th scope='col'></th>
+      <th scope='col'>Overdue fee (RM)</th>
     </tr>
     </thead>
 
@@ -22,9 +23,9 @@
         <td><%= booking.user.full_name %></td>
         <td><%= booking.product.title%></td>
         <td><%= booking.quantity%></td>
-        <td> <%= booking.booking_date %></td>
-        <td> <%= booking.return_date%></td>
-        <td> <%= booking.booking_status%> </td>
+        <td><%= booking.booking_date %></td>
+        <td><%= booking.return_date %></td>
+        <td><%= booking.booking_status %> </td>
         <td>
           <form action='/admin-dashboard/update-booking-status/<%= booking.id %>' method='post'>
             <input type='hidden' name='_method' value='patch' />
@@ -37,7 +38,8 @@
               <option value='Overdue'>Overdue</option>
             </select>
           </form>
-      </td>
+        </td>
+        <td><%= booking.overdue_fees if booking.booking_status == "Overdue"%></td>
     </tr>
     <% end %>
   </table>
