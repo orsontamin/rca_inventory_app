@@ -11,7 +11,7 @@
         <div class='card-body'>
           <h5 class='card-title'>Title: <%= product.title %> </h5>
           <p class='card-text'>Description: <%= product.description %></p>
-          <p class='card-text'>Available: <%= product.available != (product.quantity == 0) ? 'Yes' : 'No' %> </p>
+          <p class='card-text'>Available: <%= product.available != (product.quantity == 1) ? 'Yes' : 'No' %> </p>
           <p class='card-text'>Quantity Left: <%= product.quantity %> </p>
 
           <a href='/admin-dashboard/edit-product/<%= product.id %>'> <button class="btn btn-dark btn-sm">Edit Product</button> </a> <br><br>

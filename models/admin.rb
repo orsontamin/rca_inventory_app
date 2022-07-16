@@ -9,15 +9,9 @@ class Admin < ActiveRecord::Base
   validates :password, presence: true
   validates :password_confirmation, presence: true
 
-
-  # def admin?
-  #   true
-  # end
-
-
   before_save :hash_password
 
-  # instance method to check if the password from login form is identical
+  # Instance method to check if the password from login form is identical
   # to the password saved during sign up
   def authenticate(password)
     BCrypt::Password.new(self.password_digest) == password

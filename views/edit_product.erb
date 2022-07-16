@@ -14,17 +14,16 @@
 <form action='/admin-dashboard/edit-product/<%= @product.id %>' method='post'>
   <input type='hidden' name='_method' value='patch' />
   <label for='title'>Product name: </label>
-    <input type='text' name='title' value='<%= @product.title %>'/>
+  <input type='text' name='title' value='<%= @product.title %>'/>
     <br><br>
-
   <label for='description'>Product Description: </label>
-    <input type='textarea' name='description' value='<%= @product.description%>' />
+  <input type='textarea' name='description' value='<%= @product.description%>' />
     <br><br>
   <label for='quantity'>Quantity: </label>
-    <input type='number' min='0' name='quantity' value='<%= @product.quantity || 0 %>' required />
+  <input type='number' min='0' name='quantity' value='<%= @product.quantity || 0 %>' required />
     <br><br>
   <label for='available'>Status: </label>
-    <input type='checkbox' name='available' <%= "checked" if @product.available %> />
+  <input type='checkbox' name='available' <%= "checked" if @product.available %> />
     <br><br>
-    <input type='submit' class='btn btn-dark' value='Update Product' />
-  </form>
+  <input type='submit' class='btn btn-dark' value='Update Product' />
+</form>

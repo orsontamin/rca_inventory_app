@@ -9,6 +9,7 @@ require './models/booking'
 configure do
   enable :sessions
   set :method_override, true
+  set :session_secret, 'super secret'
 end
 
 helpers do
@@ -150,7 +151,7 @@ get '/admin-dashboard' do
     @bookings = Booking.all
     erb :admin_dashboard
   else
-    redirect '/admin-sign-in'
+    redirect '/'
   end
 end
 
@@ -177,7 +178,7 @@ get '/admin-dashboard/products' do
     @products = Product.all
     erb :admin_products_index
   else
-    redirect '/admin_sign_in'
+    redirect '/'
   end
 end
 
@@ -186,7 +187,7 @@ get '/admin-dashboard/edit-product/:id' do
   if admin_signed_in?
     erb :edit_product
   else
-    redirect '/'
+    redirect '/admin_sign_in'
   end
 end
 
@@ -228,7 +229,7 @@ get '/admin-dashboard/users' do
     @bookings = Booking.all
     erb :admin_bookings_index
   else
-    redirect '/'
+    redirect '/admin_sign_in'
   end
 end
 
